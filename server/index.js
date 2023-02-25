@@ -6,7 +6,7 @@ const app = express()
 const PORT = config.get('serverPort')
 const start = async () => {
     try {
-        mongoose.connect()
+        mongoose.connect(config.get("dbUrl"))
         app.listen(PORT, () => {
             console.log('Server started on port', PORT)
         })
