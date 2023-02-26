@@ -1,5 +1,6 @@
 {
   "serverPort": 5000,
   "dbUrl": "mongodb+srv://user:user@cloud-disk.hos8myq.mongodb.net/?retryWrites=true&w=majority",
-  "secretKey": "secret-key"
+  "secretKey": "spp-secret-key",
+  "filePath": "C:\\Users\\userAlpha\\Desktop\\BSUIR\\СПП\\cloud-disk\\server\\files"
 }

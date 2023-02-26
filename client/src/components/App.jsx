@@ -11,6 +11,8 @@ function App() {
     const isAuth = useSelector(state => state.user.isAuth)
     const dispatch = useDispatch()
 
+    /* хук, принимающий 1 параметром функцию,а 2 массив зависимостей. Ф-ция в любом случае вызовется один раз, после того как
+    страница отрендерилась, и будет вызываться каждый раз, когда будет изменяться какая-то зависимость переданная в массив */
     useEffect(() => {
         dispatch(auth())
     }, [])
@@ -21,7 +23,7 @@ function App() {
             <div className='app'>
                 <Navbar/>
                 <div className="wrap">
-                    {!isAuth &&
+                    {!isAuth && // show only to a non-logged user
                         <Switch>
                             <Route path="/registration" component={Registration}/>
                             <Route path="/login" component={Login}/>
