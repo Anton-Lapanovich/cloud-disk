@@ -1,9 +1,10 @@
 import axios from 'axios'
 import {addFile, deleteFileAction, setFiles} from "../reducers/fileReducer";
+import {addUploadFile, changeUploadFile, showUploader} from "../reducers/uploadReducer";
 
 export function getFiles(dirId) {
     return async dispatch => {
-        try { // проверка на пустой ID
+        try { // сheck for an empty ID
             const response = await axios.get(`http://localhost:5000/api/files${dirId ? '?parent='+dirId : ''}`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
             })
@@ -39,15 +40,17 @@ export function uploadFile(file, dirId) {
             if (dirId) {
                 formData.append('parent', dirId)
             }
+            const uploadFile = {name: file.name, progress: 0, id: Date.now()}
+            dispatch(showUploader())
+            dispatch(addUploadFile(uploadFile))
             const response = await axios.post(`http://localhost:5000/api/files/upload`, formData, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                 onUploadProgress: progressEvent => {
-                    // получение размера файла при помощи заголовков
+                    // obtaining file size using headers
                     const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-                    console.log('total', totalLength)
                     if (totalLength) {
-                        let progress = Math.round((progressEvent.loaded * 100) / totalLength)
-                        console.log(progress)
+                        uploadFile.progress = Math.round((progressEvent.loaded * 100) / totalLength)
+                        dispatch(changeUploadFile(uploadFile))
                     }
                 }
             });
@@ -64,14 +67,14 @@ export async function downloadFile(file) {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     })
-    if (response.status === 200) { // получение в бинарном виде и преобразование в нормальный файл, сохранение куда нужно
-        const blob = await response.blob() // blob - подобный физическом файлу объект, получаем из ответа от сервера
+    if (response.status === 200) { // obtaining in binary format, converting to a regular file, and saving where necessary
+        const blob = await response.blob() // a blob-like object that resembles a physical file, obtained from the server response
         const downloadUrl = window.URL.createObjectURL(blob)
-        const link = document.createElement('a') // невидимая ссылка
+        const link = document.createElement('a') // invisible link
         link.href = downloadUrl
         link.download = file.name
-        document.body.appendChild(link) // добавление ссылки в документ
-        link.click() // имитирование нажатия пользователя на ссылку
+        document.body.appendChild(link) // adding a link to a document
+        link.click() // simulating a user click on a link
         link.remove()
     }
 }

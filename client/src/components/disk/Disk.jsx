@@ -5,6 +5,7 @@ import FileList from "./fileList/FileList";
 import './disk.css'
 import Popup from "./Popup";
 import {setCurrentDir, setPopupDisplay} from "../../reducers/fileReducer";
+import Uploader from "./uploader/Uploader";
 
 const Disk = () => {
     const dispatch = useDispatch()
@@ -12,7 +13,7 @@ const Disk = () => {
     const dirStack = useSelector(state => state.files.dirStack)
     const [dragEnter, setDragEnter] = useState(false)
 
-    useEffect(() => { // функция будет вызываться каждый раз, когда будет изменяться переменная
+    useEffect(() => { // the function will be called every time the variable changes
         dispatch(getFiles(currentDir))
     }, [currentDir])
 
@@ -30,7 +31,7 @@ const Disk = () => {
         files.forEach(file => dispatch(uploadFile(file, currentDir)))
     }
 
-    function dragEnterHandler(event) { // отключение для каждой функции действий браузера по умолчанию
+    function dragEnterHandler(event) { // disabling default browser actions for each function
         event.preventDefault()
         event.stopPropagation()
         setDragEnter(true)
@@ -50,7 +51,7 @@ const Disk = () => {
         setDragEnter(false)
     }
 
-    return ( !dragEnter ? // multiple - пользователь может выбрать сразу несколько файлов
+    return ( !dragEnter ? // Multiple - the user can select multiple files at once
             <div className="disk" onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
                 <div className="disk__btns">
                     <button className="disk__back" onClick={() => backClickHandler()}>Назад</button>
@@ -62,6 +63,7 @@ const Disk = () => {
                 </div>
                 <FileList/>
                 <Popup/>
+                <Uploader/>
             </div>
             :
             <div className="drop-area" onDrop={dropHandler} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>

@@ -1,10 +1,10 @@
-// на сервере необходимо разрешить доступ к API с других доменов, middleware - промежуточное звено,
-// которое позволит отправлять любые виды запросов с любых доменов
+// on the server, it is necessary to allow access to the API from other domains,
+// middleware is an intermediate layer that allows sending any types of requests from any domains
 function cors(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    next(); // вызовет по цепочке следующий middleware
+    next(); // will call the next middleware in the chain
 }
 
 module.exports = cors

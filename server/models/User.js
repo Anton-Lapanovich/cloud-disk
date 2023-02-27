@@ -7,8 +7,7 @@ const User = new Schema({ // mongoose default creates id
     diskSpace: {type: Number, default: 1024**3*10},
     usedSpace: {type: Number, default: 0},
     avatar: {type: String},
-    files: [{type: ObjectId, ref: 'File'}] // массив, каждый объект которого имеет тип ObjectId
-    // и ссылается на сущность file
+    files: [{type: ObjectId, ref: 'File'}] // an array, each object of which has the ObjectId type and refers to the file entity
 })
 
 module.exports = model('User', User)

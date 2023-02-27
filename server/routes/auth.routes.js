@@ -69,7 +69,7 @@ router.post('/login',
 router.get('/auth', authMiddleware,
     async (req, res) => {
         try {
-            const user = await User.findOne({_id: req.user.id}) // mongo по умолчанию ставит перед id _
+            const user = await User.findOne({_id: req.user.id}) // by default, MongoDB adds an underscore before the ID
             const token = jwt.sign({id: user.id}, config.get("secretKey"), {expiresIn: "1h"}) // token overwriting
             return res.json({
                 token,

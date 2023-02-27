@@ -12,8 +12,8 @@ function App() {
     const isAuth = useSelector(state => state.user.isAuth)
     const dispatch = useDispatch()
 
-    /* хук, принимающий 1 параметром функцию,а 2 массив зависимостей. Ф-ция в любом случае вызовется один раз, после того как
-    страница отрендерилась, и будет вызываться каждый раз, когда будет изменяться какая-то зависимость переданная в массив */
+    /* Hook that takes a function as its first parameter and an array of dependencies as its second parameter. The function will
+    be called once after the page has rendered, and will be called again each time any of the dependencies passed in the array changes */
     useEffect(() => {
         dispatch(auth())
     }, [])

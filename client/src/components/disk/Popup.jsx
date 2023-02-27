@@ -14,7 +14,7 @@ const Popup = () => {
         dispatch(createDir(currentDir, dirName))
     }
 
-    return ( // stopPropagation чтобы не закрывался нажатием на контентную часть
+    return ( // stopPropagation to prevent closing by clicking on the content part
         <div className="popup" onClick={() => dispatch(setPopupDisplay('none'))} style={{display: popupDisplay}}>
             <div className="popup__content" onClick={(event => event.stopPropagation())}>
                 <div className="popup__header">
