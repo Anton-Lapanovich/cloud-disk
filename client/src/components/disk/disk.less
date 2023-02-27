@@ -25,6 +25,22 @@
   &__select {
     margin-left: auto;
   }
+  &__list, &__plate {
+    height: 20px;
+    width: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: no-repeat center center;
+    background-size: contain;
+    margin: 0 10px;
+  }
+  &__list {
+    background-image: url("../../assets/img/list.svg");
+  }
+  &__plate {
+    background-image: url("../../assets/img/plate.svg");
+  }
 }
 
 .drop-area {
@@ -81,23 +97,34 @@
   height: calc(100vh - 50px);
 }
 
-.lds-dual-ring {
+.lds-ring {
   display: inline-block;
+  position: relative;
   width: 80px;
   height: 80px;
 }
-.lds-dual-ring:after {
-  content: " ";
+.lds-ring div {
+  box-sizing: border-box;
   display: block;
+  position: absolute;
   width: 64px;
   height: 64px;
   margin: 8px;
+  border: 8px solid @font-color;
   border-radius: 50%;
-  border: 6px solid @font-color;
-  border-color: @font-color transparent @font-color transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: @font-color transparent transparent transparent;
 }
-@keyframes lds-dual-ring {
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
   0% {
     transform: rotate(0deg);
   }

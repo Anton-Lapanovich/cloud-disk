@@ -105,7 +105,7 @@ class FileController {
     async downloadFile(req, res) {
         try {
             const file = await File.findOne({_id: req.query.id, user: req.user.id}) // obtaining the ID and checking ownership right
-            const path = config.get('filePath') + '\\' + req.user.id + '\\' + file.path + '\\' + file.name // determining the path to the physical file
+            const path = fileService.getPath(file) // determining the path to the physical file
             if (fs.existsSync(path)) {
                 return res.download(path, file.name)
             }
