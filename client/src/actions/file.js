@@ -3,7 +3,7 @@ import {addFile, setFiles} from "../reducers/fileReducer";
 
 export function getFiles(dirId) {
     return async dispatch => {
-        try {
+        try { // проверка на пустой ID
             const response = await axios.get(`http://localhost:5000/api/files${dirId ? '?parent='+dirId : ''}`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
             })
