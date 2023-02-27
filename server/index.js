@@ -8,7 +8,6 @@ const app = express() // server creation from express
 const PORT = config.get('serverPort')
 const corsMiddleware = require('./middleware/cors.middleware') // механизм безопасности, который позволяет ресурсу с одного домена обращаться на другой
 
-
 app.use(fileUpload({}))
 app.use(corsMiddleware)
 app.use(express.json()) // по умолчанию express не может распарсить json-строку, это необходимо указать явно

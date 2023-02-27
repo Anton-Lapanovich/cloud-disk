@@ -57,3 +57,21 @@ export function uploadFile(file, dirId) {
         }
     }
 }
+
+export async function downloadFile(file) {
+    const response = await fetch(`http://localhost:5000/api/files/download?id=${file._id}`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    if (response.status === 200) { // получение в бинарном виде и преобразование в нормальный файл, сохранение куда нужно
+        const blob = await response.blob() // blob - подобный физическом файлу объект, получаем из ответа от сервера
+        const downloadUrl = window.URL.createObjectURL(blob)
+        const link = document.createElement('a') // невидимая ссылка
+        link.href = downloadUrl
+        link.download = file.name
+        document.body.appendChild(link) // добавление ссылки в документ
+        link.click() // имитирование нажатия пользователя на ссылку
+        link.remove()
+    }
+}
