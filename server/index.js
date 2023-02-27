@@ -11,6 +11,7 @@ const corsMiddleware = require('./middleware/cors.middleware') // a security mec
 app.use(fileUpload({}))
 app.use(corsMiddleware)
 app.use(express.json()) // by default, Express cannot parse a JSON string, it needs to be explicitly specified
+app.use(express.static('static'))
 app.use("/api/auth", authRouter)
 app.use("/api/files", fileRouter)
 const start = async () => { // connection to the database is an async process
