@@ -12,7 +12,7 @@ function App() {
     const isAuth = useSelector(state => state.user.isAuth)
     const dispatch = useDispatch()
 
-    /* Hook that takes a function as its first parameter and an array of dependencies as its second parameter. The function will
+    /* hook that takes a function as its first parameter and an array of dependencies as its second parameter. The function will
     be called once after the page has rendered, and will be called again each time any of the dependencies passed in the array changes */
     useEffect(() => {
         dispatch(auth())

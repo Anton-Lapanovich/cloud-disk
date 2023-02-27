@@ -5,7 +5,7 @@ import {setPopupDisplay} from "../../reducers/fileReducer";
 import {createDir} from "../../actions/file";
 
 const Popup = () => {
-    const [dirName, setDirName] = useState('') // управляемый input
+    const [dirName, setDirName] = useState('') // controlled input
     const popupDisplay = useSelector(state => state.files.popupDisplay)
     const currentDir = useSelector(state => state.files.currentDir)
     const dispatch = useDispatch()
