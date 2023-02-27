@@ -41,7 +41,6 @@ export const auth =  () => { //   parameter-free, authorization with token
             dispatch(setUser(response.data.user))
             localStorage.setItem('token', response.data.token)
         } catch (e) {
-            alert(e.response.data.message)
             localStorage.removeItem('token') // remove token if failed request
         }
     }
