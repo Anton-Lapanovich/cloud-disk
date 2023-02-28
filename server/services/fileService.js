@@ -6,8 +6,8 @@ class FileService {
 
     // для каждого пользователя после регистрации создаётся папка с названием ID пользователя.
     // Если файл создаётся в корневой папке, то относительный путь остаётся пустым*/
-    createDir(file) { // принимает не физический файл, а объект той модели, которую добавляем в БД
-        const filePath = `${config.get('filePath')}\\${file.user}\\${file.path}` // путь к папке files + userID + относительный путь
+    createDir(req, file) { // принимает не физический файл, а объект той модели, которую добавляем в БД
+        const filePath = this.getPath(req, file)
         return new Promise(((resolve, reject) => {
             try {
                 if (!fs.existsSync(filePath)) {
@@ -22,8 +22,8 @@ class FileService {
         }))
     }
 
-    deleteFile(file) {
-        const path = this.getPath(file)
+    deleteFile(req, file) {
+        const path = this.getPath(req, file)
         if (file.type === 'dir') {
             fs.rmdirSync(path)
         } else {
@@ -31,8 +31,8 @@ class FileService {
         }
     }
 
-    getPath(file) {
-        return config.get('filePath') + '\\' + file.user + '\\' + file.path
+    getPath(req, file) {
+        return req.filePath + '\\' + file.user + '\\' + file.path
     }
 }
 

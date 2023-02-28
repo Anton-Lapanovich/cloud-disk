@@ -5,11 +5,14 @@ const fileUpload = require("express-fileupload")
 const authRouter = require("./routes/auth.routes")
 const fileRouter = require("./routes/file.routes")
 const app = express() // server creation from express
-const PORT = config.get('serverPort')
+const PORT = process.env.PORT || config.get('serverPort')
 const corsMiddleware = require('./middleware/cors.middleware') // a security mechanism that allows a resource from one domain to access another domain
+const filePathMiddleware = require('./middleware/filepath.middleware')
+const path = require('path')
 
 app.use(fileUpload({}))
 app.use(corsMiddleware)
+app.use(filePathMiddleware(path.resolve(__dirname, 'files')))
 app.use(express.json()) // by default, Express cannot parse a JSON string, it needs to be explicitly specified
 app.use(express.static('static'))
 app.use("/api/auth", authRouter)
