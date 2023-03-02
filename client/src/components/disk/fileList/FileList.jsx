@@ -39,7 +39,8 @@ const FileList = () => {
                             key={file._id}
                             timeout={500}
                             classNames={'file'}
-                            exit={false} // animation for folder appearance only
+                            // animation for folder appearance only
+                            exit={false}
                         >
                             <File file={file}/>
                         </CSSTransition>

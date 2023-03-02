@@ -4,27 +4,32 @@ const config = require("config")
 const fileUpload = require("express-fileupload")
 const authRouter = require("./routes/auth.routes")
 const fileRouter = require("./routes/file.routes")
-const app = express() // server creation from express
+const app = express()
 const PORT = process.env.PORT || config.get('serverPort')
-const corsMiddleware = require('./middleware/cors.middleware') // a security mechanism that allows a resource from one domain to access another domain
+const corsMiddleware = require('./middleware/cors.middleware')
 const filePathMiddleware = require('./middleware/filepath.middleware')
 const path = require('path')
 
 app.use(fileUpload({}))
 app.use(corsMiddleware)
 app.use(filePathMiddleware(path.resolve(__dirname, 'files')))
-app.use(express.json()) // by default, Express cannot parse a JSON string, it needs to be explicitly specified
+// By default, Express cannot parse a JSON string. This needs to be specified explicitly
+app.use(express.json())
 app.use(express.static('static'))
 app.use("/api/auth", authRouter)
 app.use("/api/files", fileRouter)
-const start = async () => { // connection to the database is an async process
+const start = async () => {
     try {
-        mongoose.connect(config.get("dbUrl"))
-        app.listen(PORT, () => { // running a server
-            console.log('Server started on port', PORT)
+        await mongoose.connect(config.get("dbUrl"), {
+            useNewUrlParser:true,
+            useUnifiedTopology:true
+        })
+
+        app.listen(PORT, () => {
+            console.log('Server listening on port', PORT)
         })
     } catch (e) {
-
+        console.log(e)
     }
 }
 

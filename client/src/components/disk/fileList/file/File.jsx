@@ -19,7 +19,8 @@ const File = ({file}) => {
     }
 
     function downloadClickHandler(e) {
-        e.stopPropagation() // to prevent parent listeners from firing
+        // to prevent parent listeners from firing
+        e.stopPropagation()
         downloadFile(file)
     }
 

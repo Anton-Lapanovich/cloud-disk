@@ -1,12 +1,11 @@
-// request functions
-import axios from 'axios' // async http requests to the server
+// used for making asynchronous HTTP requests to a server
+import axios from 'axios'
 import {setUser} from "../reducers/userReducer";
 import {API_URL} from "../config";
 
-export const registration = async (email, password) => { // async requests to the server
+export const registration = async (email, password) => {
     try {
-        // await for sequential execution
-        const response = await axios.post(`${API_URL}api/auth/registration`, {
+        const response = await axios.post(`${API_URL}api/auth/registration`, { // await for sequential execution
             email,
             password
         })
@@ -16,11 +15,12 @@ export const registration = async (email, password) => { // async requests to th
     }
 }
 
-/* request to the server is an async function. need redux-thunk
-to return a new function, в которую параметром мы передаём dispatch */
+/* Redux-thunk is used because a request to a server is an asynchronous function.
+Redux-thunk implies that an action will return a new function, which we pass dispatch as a parameter */
 
 export const login =  (email, password) => {
-    return async dispatch => { //  save user data in a state, indicate the user is logged in
+    return async dispatch => {
+        // Store user data in the state, and indicate that the user is logged in
         try {
             const response = await axios.post(`${API_URL}api/auth/login`, {
                 email,
@@ -34,16 +34,19 @@ export const login =  (email, password) => {
     }
 }
 
-export const auth =  () => { //   parameter-free, authorization with token
+// The authentication is based on a token and no additional parameters are needed
+export const auth =  () => {
     return async dispatch => {
         try {
             const response = await axios.get(`${API_URL}api/auth/auth`,
-                {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}} // local storage token
+                // to retrieve a token from local storage
+                {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
             )
             dispatch(setUser(response.data.user))
             localStorage.setItem('token', response.data.token)
         } catch (e) {
-            localStorage.removeItem('token') // remove token if failed request
+            // To remove the token from local storage if a request to revoke a token fails
+            localStorage.removeItem('token')
         }
     }
 }

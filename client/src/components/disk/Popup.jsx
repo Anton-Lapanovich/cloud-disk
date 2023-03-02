@@ -5,7 +5,8 @@ import {setPopupDisplay} from "../../reducers/fileReducer";
 import {createDir} from "../../actions/file";
 
 const Popup = () => {
-    const [dirName, setDirName] = useState('') // controlled input
+    // Controlled input
+    const [dirName, setDirName] = useState('')
     const popupDisplay = useSelector(state => state.files.popupDisplay)
     const currentDir = useSelector(state => state.files.currentDir)
     const dispatch = useDispatch()
@@ -14,7 +15,8 @@ const Popup = () => {
         dispatch(createDir(currentDir, dirName))
     }
 
-    return ( // stopPropagation to prevent closing by clicking on the content part
+    // StopPropagation to prevent closing by clicking on the content part
+    return (
         <div className="popup" onClick={() => dispatch(setPopupDisplay('none'))} style={{display: popupDisplay}}>
             <div className="popup__content" onClick={(event => event.stopPropagation())}>
                 <div className="popup__header">

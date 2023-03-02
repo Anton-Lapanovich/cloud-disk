@@ -1,3 +1,4 @@
+// Contains routes that handle user registration and authentication
 const Router = require("express");
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
@@ -49,7 +50,7 @@ router.post('/login',
             if (!isPassValid) {
                 return res.status(400).json({message: "Invalid password"})
             }
-            const token = jwt.sign({id: user.id}, config.get("secretKey"), {expiresIn: "1h"})
+            const token = jwt.sign({id: user.id}, config.get("secretKey"), {expiresIn: "1h"}) // creating a token
             return res.json({
                 token,
                 user: {
@@ -69,8 +70,10 @@ router.post('/login',
 router.get('/auth', authMiddleware,
     async (req, res) => {
         try {
-            const user = await User.findOne({_id: req.user.id}) // by default, MongoDB adds an underscore before the ID
-            const token = jwt.sign({id: user.id}, config.get("secretKey"), {expiresIn: "1h"}) // token overwriting
+            // By default, MongoDB adds an underscore before the id
+            const user = await User.findOne({_id: req.user.id})
+            // To overwrite a token
+            const token = jwt.sign({id: user.id}, config.get("secretKey"), {expiresIn: "1h"})
             return res.json({
                 token,
                 user: {

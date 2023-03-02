@@ -33,7 +33,8 @@ const Navbar = () => {
         }
     }
 
-    return ( // NavLink to redirect
+    // NavLink to redirect
+    return (
         <div className="navbar">
             <div className="container">
                 <img src={Logo} alt="" className="navbar__logo"/>

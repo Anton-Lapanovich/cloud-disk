@@ -15,7 +15,8 @@ const Disk = () => {
     const [dragEnter, setDragEnter] = useState(false)
     const [sort, setSort] = useState('type')
 
-    useEffect(() => { // the function will be called every time the variable changes
+    // The function will be called every time the variable changes
+    useEffect(() => {
         dispatch(getFiles(currentDir, sort))
     }, [currentDir, sort])
 
@@ -33,7 +34,8 @@ const Disk = () => {
         files.forEach(file => dispatch(uploadFile(file, currentDir)))
     }
 
-    function dragEnterHandler(event) { // disabling default browser actions for each function
+    // Disabling default browser actions for each function
+    function dragEnterHandler(event) {
         event.preventDefault()
         event.stopPropagation()
         setDragEnter(true)
@@ -64,7 +66,8 @@ const Disk = () => {
         )
     }
 
-    return ( !dragEnter ? // Multiple - the user can select multiple files at once
+    // Multiple - the user can select multiple files at once
+    return ( !dragEnter ?
             <div className="disk" onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
                 <div className="disk__btns">
                     <button className="disk__back" onClick={() => backClickHandler()}>Назад</button>

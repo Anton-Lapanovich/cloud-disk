@@ -6,7 +6,8 @@ import {API_URL} from "../config";
 
 export function getFiles(dirId, sort) {
     return async dispatch => {
-        try { // сheck for an empty ID
+        // Check for an empty ID
+        try {
             dispatch(showLoader())
             let url = `${API_URL}api/files`
             if (dirId) {
@@ -60,7 +61,8 @@ export function uploadFile(file, dirId) {
             dispatch(addUploadFile(uploadFile))
             const response = await axios.post(`${API_URL}api/files/upload`, formData, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
-                onUploadProgress: progressEvent => { // obtaining file size using headers
+                // Obtaining file size using headers
+                onUploadProgress: progressEvent => {
                     const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
                     if (totalLength) {
                         uploadFile.progress = Math.round((progressEvent.loaded * 100) / totalLength)
@@ -82,14 +84,19 @@ export async function downloadFile(file) {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     })
-    if (response.status === 200) { // obtaining in binary format, converting to a regular file, and saving where necessary
-        const blob = await response.blob() // a blob-like object that resembles a physical file, obtained from the server response
+    // Obtaining in binary format, converting to a regular file, and saving where necessary
+    if (response.status === 200) {
+        // A blob-like object that resembles a physical file, obtained from the server response
+        const blob = await response.blob()
         const downloadUrl = window.URL.createObjectURL(blob)
-        const link = document.createElement('a') // invisible link
+        // Invisible link
+        const link = document.createElement('a')
         link.href = downloadUrl
         link.download = file.name
-        document.body.appendChild(link) // adding a link to a document
-        link.click() // simulating a user click on a link
+        // To add a link to a document
+        document.body.appendChild(link)
+        // To simulate a user click on a link
+        link.click()
         link.remove()
     }
 }

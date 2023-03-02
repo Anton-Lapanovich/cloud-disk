@@ -4,9 +4,11 @@ const config = require('config')
 
 class FileService {
 
-    // для каждого пользователя после регистрации создаётся папка с названием ID пользователя.
-    // Если файл создаётся в корневой папке, то относительный путь остаётся пустым*/
-    createDir(req, file) { // принимает не физический файл, а объект той модели, которую добавляем в БД
+    /* After registration, a folder with the name of the user id is created for each user.
+    If the folder is created in the root directory, then the relative path remains empty */
+
+    // It accepts not a physical file, but an object of the model that we are adding to the database
+    createDir(req, file) {
         const filePath = this.getPath(req, file)
         return new Promise(((resolve, reject) => {
             try {
